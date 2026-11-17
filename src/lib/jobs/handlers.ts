@@ -1,5 +1,6 @@
 import { ingestDocument } from "../brand-brain/ingest";
 import { generatePlan } from "../plans/service";
+import { runProduceBatch } from "../posts/batch";
 import { registerHandler } from "./run";
 
 let registered = false;
@@ -14,5 +15,8 @@ export function registerAllHandlers() {
     const p = job.params as { startDate: string; postsCount: number; notes?: string };
     const plan = await generatePlan(scope, brand, { startDate: p.startDate, postsCount: p.postsCount, notes: p.notes, jobId: job.id });
     return { planId: plan.id };
+  });
+  registerHandler("produce_batch", async ({ scope, job, brand }) => {
+    return runProduceBatch(scope, brand, job.id, job.params as { planId: string; itemIds: string[] });
   });
 }
