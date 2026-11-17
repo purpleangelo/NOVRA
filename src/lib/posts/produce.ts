@@ -452,7 +452,7 @@ function mockVisual(master: MasterPost, variants: { platform: Platform; format: 
       platform: v.platform,
       imagePrompt: `[TEST] ${master.visualConcept} No text, no letters, no logos.`,
       layout: CAROUSEL_FORMATS.has(v.format) ? "carousel" : layouts[(i + master.date.charCodeAt(9)) % layouts.length],
-      headline: v.hook.replace(/^\[TEST( ID)?\]\s*/, "").slice(0, 60),
+      headline: v.hook.replace(/\[TEST( ID)?\]\s*/g, "").slice(0, 60),
       subtext: "[TEST] Synthetic layout",
       textPlacement: (["top", "center", "bottom"] as const)[i % 3],
     })),

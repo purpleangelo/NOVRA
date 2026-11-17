@@ -1,6 +1,7 @@
 import { ingestDocument } from "../brand-brain/ingest";
 import { generatePlan } from "../plans/service";
 import { runProduceBatch } from "../posts/batch";
+import { renderPost } from "../render/render";
 import { registerHandler } from "./run";
 
 let registered = false;
@@ -17,6 +18,14 @@ export function registerAllHandlers() {
     return { planId: plan.id };
   });
   registerHandler("produce_batch", async ({ scope, job, brand }) => {
-    return runProduceBatch(scope, brand, job.id, job.params as { planId: string; itemIds: string[] });
+    // Each post is rendered (step 5) right after its copy is written, inside the same resumable batch.
+    return runProduceBatch(scope, brand, job.id, job.params as { planId: string; itemIds: string[] }, {
+      afterPost: (masterId) => renderPost(scope, brand, masterId, job.id),
+    });
+  });
+  registerHandler("render_variants", async ({ scope, job, brand }) => {
+    const ids = (job.params.masterPostIds as string[]) ?? [];
+    for (const id of ids) await renderPost(scope, brand, id, job.id);
+    return { rendered: ids.length };
   });
 }

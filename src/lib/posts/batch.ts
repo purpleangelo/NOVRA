@@ -46,15 +46,11 @@ export async function prepareBatch(scope: BrandScope, brand: Brand, planId: stri
   return createJob(scope, "produce_batch", { planId, itemIds: items.map((i) => i.id) }, { estimate });
 }
 
+/** afterPost: rendering, run right after each post is written. */
 export type BatchHooks = { afterPost?: (masterId: string) => Promise<void> };
-let hooks: BatchHooks = {};
-/** Step 5 registers rendering here so each post is rendered right after it is written. */
-export function setBatchHooks(h: BatchHooks) {
-  hooks = h;
-}
 
 /** Job handler: produces every selected post. Finished posts are skipped, so an interrupted batch resumes cleanly. */
-export async function runProduceBatch(scope: BrandScope, brand: Brand, jobId: string, params: { planId: string; itemIds: string[] }) {
+export async function runProduceBatch(scope: BrandScope, brand: Brand, jobId: string, params: { planId: string; itemIds: string[] }, hooks: BatchHooks = {}) {
   const items = (await approvedPlanItems(scope, params.planId)).filter((i) => params.itemIds.includes(i.id));
   const failures: string[] = [];
   let done = 0;

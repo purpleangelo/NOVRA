@@ -3,6 +3,7 @@ import { closeDb } from "../db";
 import { registerAllHandlers } from "./handlers";
 import { QUEUE_NAME, redisConnection } from "./queue";
 import { runJob } from "./run";
+import { closeBrowser } from "../render/render";
 import { inArray } from "drizzle-orm";
 import { getDb } from "../db";
 import { jobs } from "../db/schema";
@@ -43,6 +44,7 @@ export async function startWorkers() {
   const shutdown = async () => {
     console.log("[worker] shutting down");
     await worker.close();
+    await closeBrowser();
     await closeDb();
     process.exit(0);
   };
