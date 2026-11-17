@@ -1,0 +1,70 @@
+{
+  "$comment": "Platform formats and copy limits. Edit this file when platforms change their rules; no code change needed.",
+  "instagram": {
+    "label": "Instagram",
+    "formats": {
+      "single_image": { "format": "feed_image", "width": 1080, "height": 1350 },
+      "carousel": { "format": "carousel", "width": 1080, "height": 1350, "minSlides": 3, "maxSlides": 10 },
+      "short_video": { "format": "video_storyboard", "width": 1080, "height": 1920 }
+    },
+    "caption": { "maxChars": 2200, "recommendedChars": 600 },
+    "hashtags": { "min": 5, "max": 15 },
+    "style": "Hook in the first line, short caption, 5-15 hashtags."
+  },
+  "tiktok": {
+    "label": "TikTok",
+    "formats": {
+      "single_image": { "format": "photo_carousel", "width": 1080, "height": 1920, "minSlides": 1, "maxSlides": 1 },
+      "carousel": { "format": "photo_carousel", "width": 1080, "height": 1920, "minSlides": 3, "maxSlides": 10 },
+      "short_video": { "format": "video_storyboard", "width": 1080, "height": 1920 }
+    },
+    "caption": { "maxChars": 2200, "recommendedChars": 150 },
+    "hashtags": { "min": 3, "max": 5 },
+    "style": "Casual, 2-second hook, 3-5 hashtags."
+  },
+  "youtube_shorts": {
+    "label": "YouTube Shorts",
+    "formats": {
+      "single_image": { "format": "video_storyboard", "width": 1080, "height": 1920 },
+      "carousel": { "format": "video_storyboard", "width": 1080, "height": 1920 },
+      "short_video": { "format": "video_storyboard", "width": 1080, "height": 1920 }
+    },
+    "title": { "maxChars": 70 },
+    "caption": { "maxChars": 1000, "recommendedChars": 200 },
+    "hashtags": { "min": 0, "max": 3 },
+    "style": "Title under 70 characters, short description."
+  },
+  "facebook": {
+    "label": "Facebook",
+    "formats": {
+      "single_image": { "format": "feed_image", "width": 1080, "height": 1350 },
+      "carousel": { "format": "carousel", "width": 1080, "height": 1080, "minSlides": 3, "maxSlides": 10 },
+      "short_video": { "format": "video_storyboard", "width": 1080, "height": 1920 }
+    },
+    "caption": { "maxChars": 5000, "recommendedChars": 900 },
+    "hashtags": { "min": 0, "max": 3 },
+    "style": "Friendly, can be longer, 0-3 hashtags."
+  },
+  "linkedin": {
+    "label": "LinkedIn",
+    "formats": {
+      "single_image": { "format": "feed_image", "width": 1080, "height": 1080 },
+      "carousel": { "format": "document_carousel", "width": 1080, "height": 1080, "minSlides": 3, "maxSlides": 10 },
+      "short_video": { "format": "video_storyboard", "width": 1080, "height": 1920 }
+    },
+    "caption": { "maxChars": 3000, "recommendedChars": 1200 },
+    "hashtags": { "min": 3, "max": 5 },
+    "style": "Professional, insight first, 3-5 hashtags."
+  },
+  "x_threads": {
+    "label": "X / Threads",
+    "formats": {
+      "single_image": { "format": "feed_image", "width": 1600, "height": 900 },
+      "carousel": { "format": "feed_image", "width": 1080, "height": 1080 },
+      "short_video": { "format": "video_storyboard", "width": 1080, "height": 1920 }
+    },
+    "caption": { "maxChars": 280, "recommendedChars": 240 },
+    "hashtags": { "min": 0, "max": 2 },
+    "style": "Under 280 characters including hashtags, conversational."
+  }
+}

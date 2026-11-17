@@ -1,0 +1,69 @@
+# NOVRA: web, worker, postgres (with pgvector), redis. Works locally and on a VPS with Coolify.
+services:
+  web:
+    build: .
+    command: ["sh", "scripts/start-web.sh"]
+    env_file: .env
+    environment:
+      STORAGE_DIR: /data/storage
+    ports:
+      - "3000:3000"
+    volumes:
+      - storage:/data/storage
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  worker:
+    build: .
+    command: ["npx", "tsx", "src/worker/index.ts"]
+    env_file: .env
+    environment:
+      STORAGE_DIR: /data/storage
+    volumes:
+      - storage:/data/storage
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      web: { condition: service_started }
+    restart: unless-stopped
+    init: true
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-novra}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-novra}
+      POSTGRES_DB: ${POSTGRES_DB:-novra}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-novra}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  storage:
+  pgdata:
+  redisdata:
