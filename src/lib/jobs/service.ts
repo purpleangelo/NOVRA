@@ -4,7 +4,7 @@ import { jobs, type JobEstimate } from "../db/schema";
 import { getQueue } from "./queue";
 
 export type Job = typeof jobs.$inferSelect;
-export type JobType = "ingest_document" | "produce_batch" | "regenerate_copy" | "regenerate_image" | "render_variants";
+export type JobType = "ingest_document" | "generate_plan" | "produce_batch" | "regenerate_copy" | "regenerate_image" | "render_variants";
 
 /**
  * Creates a job. Batch jobs that spend money start as "awaiting_confirmation" and only run after the
