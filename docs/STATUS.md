@@ -9,11 +9,11 @@ Milestone 1 (see `docs/SPEC.md`).
 | 3 | Content plan generation, editing and approval | Done (tests: tests/step3-plan.test.ts) |
 | 4 | Master posts + platform variants as background jobs, Creative Director checks | Done (tests: tests/step4-produce.test.ts) |
 | 5 | Layout templates, two-layer rendering, image provider adapter | Done (tests: tests/step5-render.test.ts; fal.ai adapter untested against the live API, no key) |
-| 6 | Calendar, grid preview, post review, versions | Not started |
+| 6 | Calendar, grid preview, post review, versions | Done (tests: tests/step6-review.test.ts) |
 | 7 | Export (ZIP + CSV) | Not started |
 | 8 | Acceptance tests and report | Not started |
 
-Next: step 6.
+Next: step 7.
 
 ## Local development
 

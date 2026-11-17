@@ -8,7 +8,7 @@
 const RISKY = [
   /\b\d+(?:[.,]\d+)?\s*(?:%|percent|persen|x\b|kg|g\b|gram|ml|l\b|m\b|km|hours?|jam|days?|hari|years?|tahun|°c)/i,
   /\b(?:19|20)\d{2}\b/,
-  /\b(?:best|#1|no\.?\s?1|number one|first|only|leading|top|terbaik|pertama|satu-satunya|nomor satu)\b/i,
+  /(?:\bbest\b|#1\b|\bno\.?\s?1\b|\bnumber one\b|\bthe only\b|\bthe first\b|\bleading\b|\bterbaik\b|\bpertama di\b|\bsatu-satunya\b|\bnomor satu\b)/i,
   /\b(?:certified|certification|sertifikat|bersertifikat|iso\s?\d+|halal|organic|organik|bpom|sni|fda|award|penghargaan|winner|juara)\b/i,
   /\b(?:guarantee[ds]?|garansi|dijamin|proven|terbukti|clinically|klinis|cures?|menyembuhkan|heals?|treats?|prevents?|mencegah|100%)\b/i,
   /\b(?:rp\.?\s?\d|idr\s?\d|\$\s?\d|usd\s?\d|sgd\s?\d)/i,
@@ -29,9 +29,15 @@ const norm = (s: string) =>
     .trim();
 
 function claimTerms(sentence: string) {
-  const s = norm(sentence);
   const terms = new Set<string>();
-  for (const m of s.matchAll(/\d+(?:[.,]\d+)*/g)) terms.add(m[0].replace(/[.,]/g, ""));
+  // Only numbers that carry a claim: with a unit or %, years, money amounts, or counts of customers.
+  const numberClaims = [
+    new RegExp(RISKY[0].source, "gi"),
+    /\b(?:19|20)\d{2}\b/g,
+    /(?:rp\.?|idr|\$|usd|sgd)\s?\d[\d.,]*/gi,
+    /\d[\d.,]*\s*(?:\+\s*)?(?:customers?|clients?|pelanggan|klien)/gi,
+  ];
+  for (const re of numberClaims) for (const m of sentence.matchAll(re)) for (const n of m[0].matchAll(/\d+(?:[.,]\d+)*/g)) terms.add(n[0].replace(/[.,]/g, ""));
   for (const re of RISKY.slice(2)) {
     const m = re.exec(sentence);
     if (m) terms.add(norm(m[0]).replace(/[.\s]/g, ""));
