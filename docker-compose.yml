@@ -3,13 +3,17 @@ services:
   web:
     build: .
     command: ["sh", "scripts/start-web.sh"]
-    env_file: .env
+    env_file:
+      - path: .env
+        required: false # Coolify and other hosts may pass variables directly
     environment:
       STORAGE_DIR: /data/storage
     ports:
       - "3000:3000"
     volumes:
       - storage:/data/storage
+      # brand packs stay out of the image; mounted read-only for scripts/import-brand-pack.ts
+      - ./brand-packs:/app/brand-packs:ro
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
@@ -24,7 +28,9 @@ services:
   worker:
     build: .
     command: ["npx", "tsx", "src/worker/index.ts"]
-    env_file: .env
+    env_file:
+      - path: .env
+        required: false # Coolify and other hosts may pass variables directly
     environment:
       STORAGE_DIR: /data/storage
     volumes:

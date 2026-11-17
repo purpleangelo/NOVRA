@@ -11,10 +11,10 @@ Milestone 1 (see `docs/SPEC.md`).
 | 5 | Layout templates, two-layer rendering, image provider adapter | Done (tests: tests/step5-render.test.ts; fal.ai adapter untested against the live API, no key) |
 | 6 | Calendar, grid preview, post review, versions | Done (tests: tests/step6-review.test.ts) |
 | 7 | Export (ZIP + CSV) | Done (tests: tests/step7-export.test.ts; format in docs/EXPORT.md; Metricool headers to be checked against Metricool's current template) |
-| 8 | Acceptance tests and report | Not started |
+| 8 | Acceptance tests and report | Done (tests: tests/acceptance.test.ts, tests/acceptance-worker.test.ts; container restart checked by hand; real-brand test blocked on brand pack + API key; see docs/REPORT.md) |
 
-Next: step 8.
+Milestone 1 complete. Open items: real-brand acceptance run (needs `brand-packs/<brand>/` and ANTHROPIC_API_KEY), first live Anthropic and fal.ai runs, Metricool header check. See docs/REPORT.md.
 
 ## Local development
 
-Postgres 16 with pgvector and Redis must be running. `cp .env.example .env`, set DATABASE_URL/REDIS_URL, then `npm run db:migrate`, `npm run user:create -- you@example.com 'long-password'`, `npm run dev` and `npm run worker`. Tests: `npm test` (uses database `novra_test`).
+Postgres 16 with pgvector and Redis must be running. `cp .env.example .env`, set DATABASE_URL/REDIS_URL, then `npm run db:migrate` (npm scripts read `.env` themselves), `npm run user:create -- you@example.com 'long-password'`, `npm run dev` and `npm run worker`. Tests: `npm test` (uses database `novra_test`).

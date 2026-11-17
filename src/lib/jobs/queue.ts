@@ -8,7 +8,20 @@ export function redisConnection() {
 }
 
 let queue: Queue | undefined;
+let queueConn: IORedis | undefined;
 export function getQueue() {
-  if (!queue) queue = new Queue(QUEUE_NAME, { connection: redisConnection() });
+  if (!queue) {
+    queueConn = redisConnection();
+    queue = new Queue(QUEUE_NAME, { connection: queueConn });
+  }
   return queue;
+}
+
+export async function closeQueue() {
+  if (!queue) return;
+  const q = queue;
+  queue = undefined;
+  await q.close();
+  queueConn?.disconnect(); // BullMQ leaves connections it was given open
+  queueConn = undefined;
 }
