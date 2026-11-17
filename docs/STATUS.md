@@ -10,10 +10,10 @@ Milestone 1 (see `docs/SPEC.md`).
 | 4 | Master posts + platform variants as background jobs, Creative Director checks | Done (tests: tests/step4-produce.test.ts) |
 | 5 | Layout templates, two-layer rendering, image provider adapter | Done (tests: tests/step5-render.test.ts; fal.ai adapter untested against the live API, no key) |
 | 6 | Calendar, grid preview, post review, versions | Done (tests: tests/step6-review.test.ts) |
-| 7 | Export (ZIP + CSV) | Not started |
+| 7 | Export (ZIP + CSV) | Done (tests: tests/step7-export.test.ts; format in docs/EXPORT.md; Metricool headers to be checked against Metricool's current template) |
 | 8 | Acceptance tests and report | Not started |
 
-Next: step 7.
+Next: step 8.
 
 ## Local development
 

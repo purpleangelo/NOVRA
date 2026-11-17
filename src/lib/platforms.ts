@@ -12,6 +12,7 @@ export type PlatformRules = {
   title?: { maxChars: number };
   hashtags: { min: number; max: number };
   style: string;
+  defaultTime: string;
 };
 
 const rules = config as unknown as Record<Platform, PlatformRules>;
