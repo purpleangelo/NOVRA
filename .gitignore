@@ -4,10 +4,10 @@ dist/
 .env
 .env.*
 !.env.example
-storage/
+/storage/
 *.log
 .DS_Store
-storage-test/
+/storage-test/
 next-env.d.ts
 *.tsbuildinfo
 test-results/
